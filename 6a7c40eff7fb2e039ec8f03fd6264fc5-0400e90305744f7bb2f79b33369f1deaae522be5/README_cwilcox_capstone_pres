@@ -1,0 +1,27 @@
+Christopher Wilcox
+
+I approached this project to spend the least amount of time iterating over lists with the least number of iterations; making it as efficient as possible.
+HashMap indexing is cheap with a big Oh of O(1). My solution was to use a push the list of restaurants onto a stack (O(N)), and then pop them off (O(N)); building the food_type_hashmap at the same time as the restaurant_hashmap. I leveraged the the Stack lesson to create the missing stack module in the project directory, and upgraded it to include a 'fill' class variable that accepts a list which I pass the restaurant list. Because we still need to iterate over the dataset, we're sitting at a big Oh of O(N) to begin with, but by using the stack, we're not doing multiple searches over it.
+
+I spent A LOT of time trying to get the food_type_hashmap of LinkedListed food_types right. In my head, the faster we could determine there was only one food_type, the quicker we could display the desired restaurants. I chose to create a hashmap of linkedlists for each first character of the food_type, and each first-two characters of the food_type. Then, when we are doing a search in the user interaction, we can check user input of greater than one character first... speeding up the possibility that we get a match. I also did not want to waste a step showing the available food type if a single character was enough to determine it. For the restaurant data, it fit neatly as a food_type hashmap of linkedlisted restaurant data.
+
+This was the fastest that I think I could have done it using the data structures we learned in this class. However, in the search for faster, I found Pandas and Numpy, and pulling the lists into arrays, and DataFrames, grouping, and setting it up nicely in a table, and/or saving off to csv. The GUI allowed me to implement this, but it kinda felt like cheating. lol What makes it so fast is that it leverages optimized C code for applying a vectorized approach against the whole array instead of looping over elements. While it's still O(N) for copy, and O(1) for view, it's using a lot faster compiled code.   
+
+Where I think I could have done a better job was making assumptions. I knew that the food types were only unique out to two characters. As the number of foot types increase, there might be a case of one sharing the same string chars out to 3 or 4 digits. I chose only to do two, but left a solution to scale that up. When we write the script, it's easy to only see what the data is rather than the possibilities of what it can become. Looking at efficient data structures during the design can save yourself from so many problems later.
+
+While retrieving the restaurant data from the hashmap is O(1), we're still going to traverse the linkedlist O(N) to build the pretty restaurant print string. Big Oh is worst case, and even though part of our solution is indexing, it always points to the least efficient notation.
+
+I'm using a Stack implementation in a logfile analysis task where I want to make sure of the existence of entries in their correct sequence... ie. start, status1, status2, end. Also queues work great with building testing frameworks where fifo is needed. This class has really filled in a lot of CS knowledge that I've been missing for so long. I've really learned a lot, and enjoyed the challenges!! 
+  
+Some Interesting Things of Note (also available in the comments):
+* Created a convenience method to ask the user if they want to see the restaurants, and pretty-print them out. 
+* Utilizing a Stack to upload the restaurant list of lists in one go; keeping iterations low. The Stack module was not available in the project directory, so I had to   create it from the lesson. I also added a "fill" class var that initializes the Stack from a list arg.
+* Added a LinkedList get_size() utility method to see if we pared the food_type down to 1.
+* User Interaction
+  1. Ask the user to type a few characters of the type of food they would like to eat, or 'q' to quit.
+  2. If the user types q, break. (no food type exists beginning with the letter q that I'm aware of)
+  3. If the user types more than 1 character, and the first two signifies a single food type, ask if they
+     want to see the list of restaurants. If so, pretty print them out. Grabs most permutations.
+  4. Else, get the single char list. Check to see if the list size is 1. If so, prety print the restaurant
+     LinkedList, else return the food type LinkedList choices that are possible from that one char.
+  5. If the user types in an invalid string, let them know the search did not return anything.
